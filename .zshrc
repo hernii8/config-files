@@ -53,7 +53,8 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 bindkey "^[OA" history-search-backward
 bindkey "^[OB" history-search-forward
-
+bindkey '\e[1;5C' forward-word
+bindkey '\e[1;5D' backward-word
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS'
 zstyle ':completion:*' menu no
