@@ -1,5 +1,3 @@
-
-TMUX_DEFAULT=true
 export EDITOR "nvim"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin:$HOME/.fzf/bin"
 eval $(fzf --zsh)
@@ -12,10 +10,26 @@ alias vim='nvim'
 alias grep='grep --color=auto'
 alias cat='batcat --paging=never'
 
+fzf_tmux_open() {
+   selected=$(find ~/ | fzf)
 
-if $TMUX_DEFAULT && command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
+   if [[ -z $selected ]]; then
+      return
+   fi
+
+   selected_name=$(basename "$selected" | tr . _)
+   tmux_running=$(pgrep tmux)
+
+   if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+      tmux new-session -s $selected_name -c $selected
+      return
+   fi
+   if ! tmux has-session -t=$selected_name 2> /dev/null; then
+      tmux new-session -ds $selected_name -c $selected
+   fi
+
+   tmux attach-session -t $selected_name
+}
 
 ##### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -60,6 +74,8 @@ bindkey "^[OA" history-search-backward
 bindkey "^[OB" history-search-forward
 bindkey '\e[1;5C' forward-word
 bindkey '\e[1;5D' backward-word
+zle -N fzf_tmux_open
+bindkey -s '^F' 'fzf_tmux_open\n'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS'
 zstyle ':completion:*' menu no
