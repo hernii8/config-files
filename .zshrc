@@ -1,5 +1,5 @@
 
-
+TMUX_DEFAULT=true
 export EDITOR "nvim"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin:$HOME/.fzf/bin"
 eval $(fzf --zsh)
@@ -11,6 +11,11 @@ alias ls="eza"
 alias vim='nvim'
 alias grep='grep --color=auto'
 alias cat='batcat --paging=never'
+
+
+if $TMUX_DEFAULT && command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
 
 ##### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
