@@ -1,4 +1,5 @@
 export EDITOR "nvim"
+export VISUAL "nvim"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin:$HOME/.fzf/bin"
 eval $(fzf --zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -16,7 +17,14 @@ fzf_tmux_open() {
    if [[ -z $selected ]]; then
       return
    fi
-
+   if [[ -f $selected ]]; then
+      if file "$selected" | grep -q 'text'; then
+         nvim $selected
+      else
+         open $selected > /dev/null 2>&1 &
+      fi
+      return
+   fi
    selected_name=$(basename "$selected" | tr . _)
    tmux_running=$(pgrep tmux)
 
