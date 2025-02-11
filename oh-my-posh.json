@@ -39,13 +39,13 @@
         {
           "foreground": "#ffffff",
           "properties": {
-            "branch_icon": "\ue725 ",
+            "branch_icon": "",
             "fetch_stash_count": true,
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "fetch_worktree_count": true
           },
-          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Working.Changed }} \u25b4 {{end}}",
+          "template": " {{if .UpstreamIcon}}{{ .UpstreamIcon }}  {{end}}{{ if not .UpstreamIcon }}\ue725 {{end}}{{ .HEAD }}{{ if .Working.Changed }} \u25b4 {{end}}",
           "type": "git"
         }
       ],
