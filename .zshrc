@@ -53,6 +53,10 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 #### End of Zinit's installer chunk
 
+if [[ ! -d $HOME/.tmux/plugins/tpm ]]; then
+   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+fi
 ## Load auto-completions
 autoload -U compinit && compinit
 ## Plugins
