@@ -6,6 +6,7 @@ vim.g.maplocalleader = " "
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -77,7 +78,8 @@ vim.opt.scrolloff = 10
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>-", "<C-^>")
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>eq", vim.diagnostic.setloclist, { desc = "[E]rror [Q]uickfix list" })
+vim.keymap.set("n", "<leader>ed", vim.diagnostic.open_float, { desc = "[E]rror [D]etail" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -103,10 +105,14 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Center screen after moving by half page down" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Center screen after moving by half page up" })
--- [[ Basic Autocommands ]]
+vim.keymap.set("v", '<leader>"', '"9c"<Esc>"9pa"<Esc>', { desc = "Surround word with quotes" })
+vim.keymap.set("v", "<leader>[", '"9c[<Esc>"9pa]<Esc>', { desc = "Surround word with brackets" })
+vim.keymap.set("v", "<leader>(", '"9c(<Esc>"9pa)<Esc>', { desc = "Surround word with parenthesis" })
+vim.keymap.set("v", "<leader>{", '"9c{<Esc>"9pa}<Esc>', { desc = "Surround word with curly brackets" })
+-- [[ Basic " ]]
 --  See `:help lua-guide-autocommands`
 
--- Highlight when yanking (copying) text
+-- Highlight yanking (copying)
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -141,6 +147,9 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
+	{
+		"tpope/vim-fugitive",
+	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -643,7 +652,7 @@ require("lazy").setup({
 					lsp_format_opt = "fallback"
 				end
 				return {
-					timeout_ms = 200,
+					timeout_ms = 2000,
 					lsp_format = lsp_format_opt,
 				}
 			end,
