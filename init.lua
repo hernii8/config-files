@@ -80,7 +80,11 @@ vim.keymap.set("n", "<leader>-", "<C-^>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>eq", vim.diagnostic.setloclist, { desc = "[E]rror [Q]uickfix list" })
 vim.keymap.set("n", "<leader>ed", vim.diagnostic.open_float, { desc = "[E]rror [D]etail" })
-
+-- Add quotes, braces...
+vim.keymap.set("v", '<leader>"', '"9c"<Esc>"9pa"<Esc>', { desc = "Surround word with quotes" })
+vim.keymap.set("v", "<leader>[", '"9c[<Esc>"9pa]<Esc>', { desc = "Surround word with brackets" })
+vim.keymap.set("v", "<leader>(", '"9c(<Esc>"9pa)<Esc>', { desc = "Surround word with parenthesis" })
+vim.keymap.set("v", "<leader>{", '"9c{<Esc>"9pa}<Esc>', { desc = "Surround word with curly brackets" })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -105,14 +109,10 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Center screen after moving by half page down" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Center screen after moving by half page up" })
-vim.keymap.set("v", '<leader>"', '"9c"<Esc>"9pa"<Esc>', { desc = "Surround word with quotes" })
-vim.keymap.set("v", "<leader>[", '"9c[<Esc>"9pa]<Esc>', { desc = "Surround word with brackets" })
-vim.keymap.set("v", "<leader>(", '"9c(<Esc>"9pa)<Esc>', { desc = "Surround word with parenthesis" })
-vim.keymap.set("v", "<leader>{", '"9c{<Esc>"9pa}<Esc>', { desc = "Surround word with curly brackets" })
--- [[ Basic " ]]
+-- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
--- Highlight yanking (copying)
+-- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -149,6 +149,46 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
 		"tpope/vim-fugitive",
+	},
+	{
+		"vim-test/vim-test",
+		event = "VimEnter", -- Sets the loading event to 'VimEnter'
+		dependencies = {
+			"preservim/vimux",
+		},
+		cmd = {
+			"TestNearest",
+			"TestFile",
+			"TestSuite",
+			"TestLast",
+			"TestVisit",
+		},
+		config = function()
+			vim.cmd("let test#strategy = 'vimux'")
+			vim.keymap.set("n", "<leader>tn", "<cmd>:TestNearest<cr>", { desc = "[T]est [N]earest" })
+			vim.keymap.set("n", "<leader>tf", "<cmd>:TestFile<cr>", { desc = "[T]est [F]ile" })
+			vim.keymap.set("n", "<leader>ts", "<cmd>:TestSuite<cr>", { desc = "[T]est [S]uite" })
+			vim.keymap.set("n", "<leader>tl", "<cmd>:TestLast<cr>", { desc = "[T]est [L]ast" })
+			vim.keymap.set("n", "<leader>tv", "<cmd>:TestVisit<cr>", { desc = "[T]est [V]isit" })
+		end,
+	},
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+			"TmuxNavigatorProcessList",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -253,7 +293,7 @@ require("lazy").setup({
 				{ "<leader>r", group = "[R]ename" },
 				{ "<leader>s", group = "[S]earch" },
 				{ "<leader>w", group = "[W]orkspace" },
-				{ "<leader>t", group = "[T]oggle" },
+				{ "<leader>t", group = "[T]est" },
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
 			},
 		},
@@ -525,9 +565,9 @@ require("lazy").setup({
 					--
 					-- This may be unwanted, since they displace some of your code
 					if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-						map("<leader>th", function()
+						map("<leader>ih", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-						end, "[T]oggle Inlay [H]ints")
+						end, "[I]nlay [H]ints")
 					end
 				end,
 			})
@@ -652,7 +692,7 @@ require("lazy").setup({
 					lsp_format_opt = "fallback"
 				end
 				return {
-					timeout_ms = 2000,
+					timeout_ms = 200,
 					lsp_format = lsp_format_opt,
 				}
 			end,
