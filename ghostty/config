@@ -1,0 +1,12 @@
+theme = "Arstotzka"
+font-family = Liga SF Mono Nerd Font Light
+font-size = 10
+window-save-state = always
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+window-subtitle = working-directory
+window-theme = dark
+background-opacity = 0.93
+background-blur = 20
+adjust-cell-height = 50%
