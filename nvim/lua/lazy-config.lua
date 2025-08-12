@@ -10,27 +10,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
-
 require("lazy").setup({
 	require("plugins.gruvbox-material"),
-	require("plugins.vim-fugitive"),
 	require("plugins.vim-test"),
 	require("plugins.vim-tmux-navigator"),
-	require("plugins.vim-neo-tree"),
 	require("plugins.vim-sleuth"),
-	require("plugins.git-signs"),
 	require("plugins.which-key"),
-	require("plugins.telescope"),
+	require("plugins.snacks"),
 	require("plugins.lazy-dev"),
 	require("plugins.nvim-lspconfig"),
 	require("plugins.conform"),
@@ -38,7 +24,9 @@ require("lazy").setup({
 	require("plugins.mini"),
 	require("plugins.todo-comments"),
 	require("plugins.treesitter"),
-	require("plugins.autoclose"),
+	require("plugins.smear-cursor"),
+	require("plugins.tiny-inline-diagnostic"),
+	require("plugins.git-conflict"),
 }, {
 	ui = {
 		icons = vim.g.have_nerd_font and {} or {

@@ -42,15 +42,16 @@ return { -- Useful plugin to show you pending keybinds.
 			},
 		},
 
-		-- Document existing key chains
 		spec = {
-			{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
-			{ "<leader>d", group = "[D]ocument" },
+			{ "<leader>w", group = "[B]uffer" },
+			{ "<leader>f", group = "[F]ind" },
+			{ "<leader>e", group = "[E]rror" },
+			{ "<leader>g", group = "[G]it", mode = { "n", "v" } },
+			{ "<leader>n", group = "[N]ote" },
 			{ "<leader>r", group = "[R]ename" },
 			{ "<leader>s", group = "[S]earch" },
-			{ "<leader>w", group = "[W]orkspace" },
 			{ "<leader>t", group = "[T]est" },
-			{ "<leader>g", group = "[G]it", mode = { "n", "v" } },
+			{ "<leader>u", group = "[U]I Settings", mode = { "n", "v" } },
 		},
 	},
 }
