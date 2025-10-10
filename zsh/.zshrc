@@ -1,15 +1,13 @@
 export EDITOR "nvim"
 export VISUAL "nvim"
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin:$HOME/.fzf/bin"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin:$HOME/.fzf/bin:$HOME/.local/bin/"
 eval $(fzf --zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias cnote="/home/herni/.local/create_note.sh"
 alias la="eza -lah"
 alias ls="eza"
 alias vim='nvim'
 alias grep='grep --color=auto'
-alias cat='batcat --paging=never'
 
 fzf_tmux_open() {
    selected=$(find ~/ | fzf)
@@ -37,6 +35,13 @@ fzf_tmux_open() {
    fi
 
    tmux attach-session -t $selected_name
+}
+
+cd() {
+  builtin cd "$@" || return
+  if [ -n "$TMUX" ]; then
+    tmux rename-window "$(basename "$PWD")"
+  fi
 }
 
 ##### Added by Zinit's installer
@@ -95,5 +100,4 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza $realpath'
 zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
-eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/settings.json)"
-
+-eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/settings.json)"
