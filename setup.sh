@@ -8,11 +8,10 @@ if ! command -v stow &>/dev/null; then
     brew install stow
 fi
 
-PACKAGES=(ghostty nvim tmux)
+echo "Stowing ghostty and nvim..."
+stow --target="$HOME/.config" --dir="$DOTFILES_DIR" ghostty nvim
 
-for pkg in "${PACKAGES[@]}"; do
-    echo "Stowing $pkg..."
-    stow --target="$HOME" --dir="$DOTFILES_DIR" "$pkg"
-done
+echo "Stowing tmux and zsh..."
+stow --target="$HOME" --dir="$DOTFILES_DIR" tmux zsh
 
 echo "Done."
