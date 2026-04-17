@@ -32,6 +32,10 @@ return { -- Collection of various small independent plugins/modules
 		-- cursor location to LINE:COLUMN
 		---@diagnostic disable-next-line: duplicate-set-field
 		statusline.section_location = function()
+			local rec = vim.fn.reg_recording()
+			if rec ~= "" then
+				return "recording @" .. rec .. "  %2l:%-2v"
+			end
 			return "%2l:%-2v"
 		end
 
