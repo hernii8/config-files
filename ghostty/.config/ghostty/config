@@ -1,5 +1,5 @@
 theme = "Arstotzka"
-font-family = Liga SF Mono Nerd Font Light
+font-family = "MonacoNerdFont"
 font-size = 10
 window-save-state = always
 clipboard-read = allow
