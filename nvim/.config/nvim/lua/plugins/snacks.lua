@@ -429,7 +429,7 @@ return {
 			function()
 				Snacks.picker.lsp_implementations()
 			end,
-			desc = "[G]oto [I]mplementation",
+			desc = "[G]o to [I]mplementation (LSP)",
 		},
 		{
 			"gt",

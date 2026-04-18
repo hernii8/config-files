@@ -42,6 +42,24 @@ return {
 				map("<leader>rv", vim.lsp.buf.rename, "[R]ename [V]ariable")
 				map("<leader>d", vim.lsp.buf.hover, "[D]ocumentation")
 				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
+				map("gi", function()
+					local word = vim.fn.expand("<cword>")
+					local patterns = {
+						python     = "^class \\w+\\(.*" .. word,
+						javascript = "class \\w+.*(implements|extends).*" .. word,
+						typescript = "class \\w+.*(implements|extends).*" .. word,
+						java       = "class \\w+.*(implements|extends).*" .. word,
+						rust       = "impl.*\\b" .. word .. "\\b",
+						ruby       = "class \\w+\\s*<\\s*" .. word,
+						cs         = "class \\w+.*:\\s*.*" .. word,
+					}
+					local pattern = patterns[vim.bo.filetype]
+					if pattern then
+						Snacks.picker.grep({ search = pattern, regex = true })
+					else
+						vim.lsp.buf.implementation()
+					end
+				end, "[G]o to [I]mplementation (Grep)")
 			end,
 		})
 
