@@ -10,3 +10,8 @@ window-theme = dark
 background-opacity = 0.93
 background-blur = 20
 adjust-cell-height = 50%
+quick-terminal-position = top
+quick-terminal-size = 100%
+keybind = global:ctrl+cmd+t=toggle_quick_terminal
+keybind = global:ctrl+alt+t=toggle_quick_terminal
+macos-hidden=always

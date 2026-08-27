@@ -27,6 +27,7 @@ require("lazy").setup({
 	require("plugins.smear-cursor"),
 	require("plugins.tiny-inline-diagnostic"),
 	require("plugins.git-conflict"),
+	require("plugins.venv-selector"),
 }, {
 	ui = {
 		icons = vim.g.have_nerd_font and {} or {
